@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         {
             inputX = Input.GetAxis("Horizontal");
             RaycastHit2D hitGround = Physics2D.Raycast(groundRayObj.transform.position, -Vector2.up);
-            Debug.DrawRay (groundRayObj.transform.position, -Vector2.up * hitGround.distance * 10f, Color.red);
+            Debug.DrawRay (groundRayObj.transform.position, -Vector2.up * hitGround.distance , Color.red);
 
             if (hitGround.distance != null)
             {
