@@ -1,50 +1,78 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private Vector2 move;
+    
     [SerializeField] private float speed;
-
+    
     private float inputX;
-    private float inputY;
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-
-    }
-
-
-    void Update()
-    {
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
-
-    }
-
-    private void FixedUpdate()
-    {
-        Movement();
-    }
-
-    private void Movement()
-    {
-        move = new Vector2(inputX, 0);
-        rb.AddForce(move * speed * Time.deltaTime);
-        
-        
-        if (move.x > 0f)
+    [SerializeField] private float jumpf;
+    [SerializeField] private bool isJumping; 
+    public GameObject groundRayObj;
+    
+        void Start()
         {
-            transform.eulerAngles = Vector2.zero;
+            rb = GetComponent<Rigidbody2D>();
+            isJumping = false;
+
         }
-        else if (move.x < 0f)
+    
+    
+        void Update()
         {
-            transform.eulerAngles = new Vector2(0, 180);
+           
+            Movement();
+            Jump();
+
+        }
+    
+        private void FixedUpdate()
+        {
+            inputX = Input.GetAxis("Horizontal");
+            RaycastHit2D hitGround = Physics2D.Raycast(groundRayObj.transform.position, -Vector2.up);
+            Debug.DrawRay (groundRayObj.transform.position, -Vector2.up * hitGround.distance * 10f, Color.red);
+
+            if (hitGround.distance != null)
+            {
+                if (hitGround.distance <= 0.5)
+                {
+                    isJumping = false;
+                }
+                else
+                {
+                    isJumping = true;
+                }
+            }
+        }
+    
+        private void Movement()
+        {
+            rb.velocity = new Vector2(inputX * speed , rb.velocity.y);
+            if (inputX > 0f)
+            {
+                transform.eulerAngles = Vector2.zero;
+            }
+            else if (inputX < 0f)
+            {
+                transform.eulerAngles = new Vector2(0, 180);
+            }
+    
         }
 
-    }
+        private void Jump()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (isJumping == false)
+                {
+                    rb.velocity = Vector2.up * jumpf;
+                }
+            }
+        }
 }
