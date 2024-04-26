@@ -13,13 +13,15 @@ public class PlayerController : MonoBehaviour
     private float inputX;
 
     [SerializeField] private float jumpf;
-    [SerializeField] private bool isJumping; 
+    [SerializeField] private bool isJumping;
+    [SerializeField] private bool isSwimming;
     public GameObject groundRayObj;
     
         void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             isJumping = false;
+            isSwimming = false;
 
         }
     
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
         private void FixedUpdate()
         {
             inputX = Input.GetAxis("Horizontal");
-            RaycastHit2D hitGround = Physics2D.Raycast(groundRayObj.transform.position, -Vector2.up);
+            /*RaycastHit2D hitGround = Physics2D.Raycast(groundRayObj.transform.position, -Vector2.up);
             Debug.DrawRay (groundRayObj.transform.position, -Vector2.up * hitGround.distance , Color.red);
 
             if (hitGround.distance != null)
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
                 {
                     isJumping = true;
                 }
-            }
+            }*/
         }
     
         private void Movement()
@@ -69,10 +71,43 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                if (isJumping == false)
+                if (isJumping == false || isSwimming == true )
                 {
                     rb.velocity = Vector2.up * jumpf;
                 }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            
+            if ((other.gameObject.CompareTag("Ground")))
+            {
+                isJumping = false;
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if ((other.gameObject.CompareTag("Water")))
+            {
+                isSwimming = true;
+            }
+        }
+
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag("Ground"))
+            {
+                isJumping = true;
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if ((other.gameObject.CompareTag("Water")))
+            {
+                isSwimming = false;
             }
         }
 }

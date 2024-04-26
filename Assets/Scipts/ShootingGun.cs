@@ -2,9 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
+
 
 public class ShootingGun : MonoBehaviour
 {
+    [SerializeField] private GameObject gun;
+
+    private Vector2 worldPosition;
+    private Vector2 direction;
+    private float angle;
+    
     [SerializeField]
     private Transform shootpoint;
 
@@ -19,11 +28,13 @@ public class ShootingGun : MonoBehaviour
 
 private void Start()
 {
-    Cursor.visible = false;
+    
 }
 
 void Update()
     {
+        GunRotate();
+        
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -36,7 +47,7 @@ void Update()
                 target.transform.position = new Vector2(hit.point.x, hit.point.y);
                 Debug.Log($" X = {hit.point.x} , Y = {hit.point.y}");
 
-                Vector2 Projectile = CalculateProjectileVelocity(shootpoint.position, hit.point, 1f);
+                Vector2 Projectile = CalculateProjectileVelocity(shootpoint.position, hit.point, 0.5f);
                 Rigidbody2D fireBullet = Instantiate(bulletPrefeb,shootpoint.position,Quaternion.identity);
 
                 fireBullet.velocity = Projectile;
@@ -58,5 +69,27 @@ void Update()
         Vector2 result = new Vector2(velocityX, velocityY);
 
         return result;
+    }
+
+    private void GunRotate()
+    {
+        worldPosition = Camera.main.ScreenToWorldPoint(target.transform.position);
+        direction = (worldPosition - (Vector2)gun.transform.position);
+        gun.transform.right = direction;
+
+        angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        Vector3 localScale = Vector3.one;
+        if (angle > 90 || angle < -90)
+        {
+            localScale.y = -1f;
+        }
+        else
+        {
+            localScale.y = 1f;
+        }
+
+        gun.transform.localScale = localScale;
+
     }
 }

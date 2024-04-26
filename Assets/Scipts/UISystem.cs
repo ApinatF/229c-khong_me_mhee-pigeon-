@@ -18,6 +18,8 @@ public class UISystem : MonoBehaviour
         {
             instance = this;
         }
+        
+        Cursor.visible = false;
     }
 
     private void Start()
@@ -51,6 +53,7 @@ public class UISystem : MonoBehaviour
 
      void Resume()
     {
+        
         pauseMenuUi.SetActive(false);
         Win.SetActive(false);
         Time.timeScale = 1f;
