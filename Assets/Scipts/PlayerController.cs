@@ -23,17 +23,12 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         rb.velocity = new Vector2(speed, rb.velocity.y);
-        //rb.AddForce(transform.right * speed);
         
         if (Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
             rb.velocity = new Vector2(speed, jompForce)  ;
-            //transform.position = direction * Time.deltaTime;
-            //rb.AddForce(transform.right * speed);
         }
-
         
-
     }
     
 
