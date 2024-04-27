@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: ba1d36f397803dc46a616c19d0a40d37
   - enabled: 1
     path: Assets/Scenes/Act01.unity
-    guid: 3eccf7ebd95993442bee287281a5232f
+    guid: e8d7bce88080f7d46960a590d7ab6ac0
   - enabled: 1
     path: Assets/Scenes/EndCredit.unity
     guid: 92bf3f127b5893f4d92918bded9580d8

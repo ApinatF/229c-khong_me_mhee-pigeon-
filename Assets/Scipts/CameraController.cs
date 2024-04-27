@@ -9,6 +9,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform Followtarget;
     private void LateUpdate()
     {
-        transform.position = new Vector3(Followtarget.transform.position.x, 0, -10);
+        transform.position = new Vector3(Followtarget.transform.position.x + 10f, 0, -10);
     }
 }

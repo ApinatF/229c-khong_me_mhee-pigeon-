@@ -22,6 +22,6 @@ public class Parallax : MonoBehaviour
     
     private void LateUpdate()
     {
-        transform.position = new Vector2(Followtarget.transform.position.x, 0);
+        transform.position = new Vector2(Followtarget.transform.position.x + 10f, 0);
     }
 }

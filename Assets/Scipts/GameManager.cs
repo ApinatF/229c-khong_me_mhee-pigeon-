@@ -8,8 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public bool IsPaused = false;
     public static GameManager instance;
+    
     public GameObject Win;
     public bool IsWin = false;
+    
+    public GameObject Lose;
+    public bool IsGameOver = false;
 
     [SerializeField]
     private GameObject targetUi;
@@ -56,6 +60,16 @@ public class GameManager : MonoBehaviour
             }
 
         }
+        
+        if (IsWin == true)
+        {
+            Winner();
+        }
+
+        if (IsGameOver == true)
+        {
+            GameOver();
+        }
     }
 
     void Pause()
@@ -77,11 +91,26 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         targetUi.SetActive(true);
     }
-    
-    
-    public void AddCoin()
+
+    public void Winner()
     {
-        curCoins += 1;
+        Win.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        targetUi.SetActive(false);
+    }
+    
+    public void GameOver()
+    {
+        Lose.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        targetUi.SetActive(false);
+    }
+    
+    public void AddCoin(int point)
+    {
+        curCoins += point ;
         CoinPointUi.text = $"Coin = {curCoins.ToString()} / {goalCoins.ToString()}";
 
     }

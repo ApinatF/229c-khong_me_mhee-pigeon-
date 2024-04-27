@@ -29,10 +29,11 @@ public class ShootingGun : MonoBehaviour
 
     void Update()
     {
-        GunRotate();
-        //GunShooting();
-        
-        FireBulletProjectile();
+        if (GameManager.instance.IsPaused != true)
+        {
+            GunRotate();
+            FireBulletProjectile();
+        }
         
         
         target.transform.position = Input.mousePosition; // Set GameObj targetUi at mouse position

@@ -5,8 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - Water
   - EnemyUnit
+  - Scoring
+  - killplayer
   layers:
   - Default
   - TransparentFX
