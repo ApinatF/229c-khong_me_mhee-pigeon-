@@ -23,41 +23,45 @@ public class ShootingGun : MonoBehaviour
     [SerializeField]
     private Rigidbody2D bulletPrefeb;
 
+    private GameObject bulletPrefeb2;
 
-// Update is called once per frame
+    private GameObject bulletInst;
 
-private void Start()
-{
-    
-}
-
-void Update()
+    void Update()
     {
         GunRotate();
+        //GunShooting();
         
-        if (Input.GetMouseButtonDown(0))
+        FireBulletProjectile();
+        
+        
+        target.transform.position = Input.mousePosition; // Set GameObj targetUi at mouse position
+    }
+
+
+    private void FireBulletProjectile()
+{
+    if (Input.GetMouseButtonDown(0))
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 10f );
+
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+        if (hit.collider != null)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction * 10f, Color.red, 10f );
+            target.transform.position = new Vector2(hit.point.x, hit.point.y);
+            Debug.Log($" X = {hit.point.x} , Y = {hit.point.y}");
 
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+            Vector2 Projectile = CalculateProjectileVelocity(shootpoint.position, hit.point, 0.5f);
+            Rigidbody2D fireBullet = Instantiate(bulletPrefeb,shootpoint.position,Quaternion.identity);
 
-            if (hit.collider != null)
-            {
-                target.transform.position = new Vector2(hit.point.x, hit.point.y);
-                Debug.Log($" X = {hit.point.x} , Y = {hit.point.y}");
-
-                Vector2 Projectile = CalculateProjectileVelocity(shootpoint.position, hit.point, 0.5f);
-                Rigidbody2D fireBullet = Instantiate(bulletPrefeb,shootpoint.position,Quaternion.identity);
-
-                fireBullet.velocity = Projectile;
-            
-            }
+            fireBullet.velocity = Projectile;
             
         }
-        
-        target.transform.position = Input.mousePosition;
+            
     }
+} //Code อาจารย์
 
     public Vector2 CalculateProjectileVelocity(Vector2 origin, Vector2 target, float t) 
     {
@@ -69,7 +73,7 @@ void Update()
         Vector2 result = new Vector2(velocityX, velocityY);
 
         return result;
-    }
+    } //Code อาจารย์
 
     private void GunRotate()
     {
@@ -92,4 +96,5 @@ void Update()
         gun.transform.localScale = localScale;
 
     }
+    
 }
