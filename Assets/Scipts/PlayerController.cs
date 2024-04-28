@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(speed, jompForce)  ;
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKeyDown(KeyCode.Keypad9))
         {
             rb.transform.position = GG.position;
         }
