@@ -8,6 +8,9 @@ TagManager:
   - EnemyUnit
   - Scoring
   - killplayer
+  - Goal
+  - Ammo
+  - Obstruction
   layers:
   - Default
   - TransparentFX

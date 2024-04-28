@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed;
     
     [SerializeField] private float jompForce = 5f;
+    
+    
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
     }
 
     private void Update()
@@ -39,6 +42,11 @@ public class PlayerController : MonoBehaviour
             {
                 GameManager.instance.IsGameOver = true;
             }
+            
+            if ((other.gameObject.CompareTag("Goal")))
+            {
+                GameManager.instance.IsWin = true;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -46,6 +54,11 @@ public class PlayerController : MonoBehaviour
             if ((other.gameObject.CompareTag("Scoring")))
             {
                 GameManager.instance.AddCoin(5);
+            }
+            
+            if ((other.gameObject.CompareTag("Ammo")) || (other.gameObject.CompareTag("Obstruction")) )
+            {
+                GameManager.instance.TakeDamege(1);
             }
         }
 

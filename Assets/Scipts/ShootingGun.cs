@@ -26,17 +26,37 @@ public class ShootingGun : MonoBehaviour
     private GameObject bulletPrefeb2;
 
     private GameObject bulletInst;
+    
+    private float timeCurren = 0f;
+
+    private float timeMax = 3f;
+    
+    private bool fireOn = true;
 
     void Update()
     {
         if (GameManager.instance.IsPaused != true)
         {
             GunRotate();
-            FireBulletProjectile();
+            if (fireOn == true)
+            {
+                FireBulletProjectile(); 
+            }
         }
         
         
         target.transform.position = Input.mousePosition; // Set GameObj targetUi at mouse position
+    }
+
+    private void FixedUpdate()
+    {
+        timeCurren += Time.deltaTime;
+
+        if (timeCurren >= timeMax )
+        {
+            timeCurren = 0f;
+            fireOn = true;
+        }
     }
 
 
@@ -58,6 +78,7 @@ public class ShootingGun : MonoBehaviour
             Rigidbody2D fireBullet = Instantiate(bulletPrefeb,shootpoint.position,Quaternion.identity);
 
             fireBullet.velocity = Projectile;
+            fireOn = false;
             
         }
             

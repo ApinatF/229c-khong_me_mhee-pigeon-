@@ -9,23 +9,32 @@ public class GameManager : MonoBehaviour
     public bool IsPaused = false;
     public static GameManager instance;
     
+    [SerializeField]
+    private float Maxhealth;
+    [SerializeField]
+    private float Currenthealth;
+    
     public GameObject Win;
     public bool IsWin = false;
     
     public GameObject Lose;
     public bool IsGameOver = false;
-
-    [SerializeField]
-    private GameObject targetUi;
+    
+    public GameObject targetUi;
     
 
     public GameObject pauseMenuUi;
+    
+    public Transform playerTrans;
+    private Vector2 startPosition;
     
     public int curCoins;
     
     public int goalCoins;
 
     public TextMeshProUGUI CoinPointUi;
+    public TextMeshProUGUI healthUi;
+    public TextMeshProUGUI DistanceText;
 
     private void Awake()
     {
@@ -42,7 +51,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         IsPaused = false;
         
-        CoinPointUi.text = $"Coin = {curCoins.ToString()} / {goalCoins.ToString()}";
+        Currenthealth = Maxhealth;
+
+        startPosition = playerTrans.position;
+        
+        CoinPointUi.text = $"Coin = {curCoins.ToString()}";
+        
+        healthUi.text = $"HP = {Currenthealth.ToString()}";
     }
 
     void Update()
@@ -66,10 +81,23 @@ public class GameManager : MonoBehaviour
             Winner();
         }
 
-        if (IsGameOver == true)
+        if (IsGameOver == true || Currenthealth == 0)
         {
+            Currenthealth = 0;
             GameOver();
         }
+
+        Vector2 distance = (Vector2)playerTrans.position - startPosition;
+        distance.y = 0f;
+
+        if (distance.x < 0)
+        {
+            distance.x = 0;
+        }
+
+        DistanceText.text = distance.x.ToString("F0") + "m";
+
+
     }
 
     void Pause()
@@ -108,21 +136,33 @@ public class GameManager : MonoBehaviour
         targetUi.SetActive(false);
     }
     
-    public void AddCoin(int point)
-    {
-        curCoins += point ;
-        CoinPointUi.text = $"Coin = {curCoins.ToString()} / {goalCoins.ToString()}";
-
-    }
-    
     public void YouWin()
     {
         if (curCoins >= goalCoins)
         {
             UISystem.instance.IsWin = true;
             UISystem.instance.Win.SetActive(true);
-            
         }
+    }
+    
+    public void AddCoin(int point)
+    {
+        curCoins += point ;
+        CoinPointUi.text = $"Coin = {curCoins.ToString()}";
 
     }
+    
+    public void TakeDamege(float t)
+    {
+        Currenthealth -= t;
+        healthUi.text = $"HP = {Currenthealth.ToString()}";
+    }
+    
+    
+
+    
+    
+    
+    
+    
 }
