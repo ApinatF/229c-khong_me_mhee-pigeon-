@@ -55,9 +55,9 @@ public class GameManager : MonoBehaviour
 
         startPosition = playerTrans.position;
         
-        CoinPointUi.text = $"Coin = {curCoins.ToString()}";
+        CoinPointUi.text = $"= {curCoins.ToString()}";
         
-        healthUi.text = $"HP = {Currenthealth.ToString()}";
+        healthUi.text = $"= {Currenthealth.ToString()}";
     }
 
     void Update()
@@ -148,14 +148,14 @@ public class GameManager : MonoBehaviour
     public void AddCoin(int point)
     {
         curCoins += point ;
-        CoinPointUi.text = $"Coin = {curCoins.ToString()}";
+        CoinPointUi.text = $"= {curCoins.ToString()}";
 
     }
     
     public void TakeDamege(float t)
     {
         Currenthealth -= t;
-        healthUi.text = $"HP = {Currenthealth.ToString()}";
+        healthUi.text = $"= {Currenthealth.ToString()}";
     }
     
     

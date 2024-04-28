@@ -25,6 +25,14 @@ public class Ammo : MonoBehaviour
         }
     }
     
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if ((other.gameObject.CompareTag("Ammo")))
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Ground"))

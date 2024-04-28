@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
 
+    [SerializeField] private Transform GG;
+
     private Vector2 direction;
     
     [SerializeField] private float speed;
@@ -31,6 +33,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(speed, jompForce)  ;
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            rb.transform.position = GG.position;
+        }
         
     }
     
@@ -53,7 +60,7 @@ public class PlayerController : MonoBehaviour
         {
             if ((other.gameObject.CompareTag("Scoring")))
             {
-                GameManager.instance.AddCoin(5);
+                GameManager.instance.AddCoin(1);
             }
             
             if ((other.gameObject.CompareTag("Ammo")) || (other.gameObject.CompareTag("Obstruction")) )
